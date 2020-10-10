@@ -7,13 +7,27 @@
 //
 
 import UIKit
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        //マイグレーション処理(データ変更したため)を行う．
+        /*------------------------------ここから-------------------------*/
+         let config = Realm.Configuration(
+             
+             schemaVersion: 4 /*初期値は0*/ ,
+             
+             migrationBlock: { migration, oldSchemaVersion in
+                 if (oldSchemaVersion < 4) {
+                 }
+         })
+         
+         Realm.Configuration.defaultConfiguration = config
+        
+         let realm = try! Realm()
+        /*-----------------------------ここまで----------------------------*/
         // Override point for customization after application launch.
         return true
     }
